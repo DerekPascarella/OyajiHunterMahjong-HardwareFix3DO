@@ -1,6 +1,6 @@
 # Oyaji Hunter Mahjong
 
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/cover.png?raw=true"> A fix for "Oyaji Hunter Mahjong" on the 3DO preventing crashes when played via CD-R or ODE. Without it, the game hangs or resets on the loading screen before Stage 5, and sometimes before other stages. It also fixes the loading screen itself, so all three graphics render as intended.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/cover.png?raw=true"> A fix for "Oyaji Hunter Mahjong" on the 3DO preventing crashes when played via CD-R or ODE. Without it, the game hangs or resets on the loading screen before Stage 5, and sometimes before other stages. It also fixes the loading screen itself, so all three graphics render as intended in software emulators.
 
 The crash was originally reported in [issue #16 of fixel's 3DO ODE firmware repo](https://github.com/fixelsan/3do-ode-firmware/issues/16), and was reproduced there on an FZ-1 with an internal ODE, on MNEMO's ODE, and on a plain CD-R. It turned out to be a bug in the game itself, not the ODEs. The original pressed disc reportedly gets away with it, but CD-Rs and ODEs don't.
 
