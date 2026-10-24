@@ -10,17 +10,9 @@ Two patches are available. One can be applied to the [Eight Mansions English tra
 
 **⯈ Download Patch (Japanese):** [Oyaji Hunter Mahjong (Hardware Crash Fix).xdelta](https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/raw/refs/heads/main/Oyaji%20Hunter%20Mahjong%20(Hardware%20Crash%20Fix).xdelta)
 
-## Table of Contents
-
-1. [Patching Instructions](#patching-instructions)
-2. [Checksums](#checksums)
-3. [About the Bug](#about-the-bug)
-4. [About the Fix](#about-the-fix)
-5. [Testing](#testing)
-
 ## Patching Instructions
 
-Both patches are plain xdelta files and work on the ISO version of the game. Any xdelta patcher will do, such as [Delta Patcher](https://www.romhacking.net/utilities/704/) or the xdelta3 command line tool.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_fmv.png?raw=true"> Both patches are plain xdelta files and work on the ISO version of the game. Any xdelta patcher will do, such as [Delta Patcher](https://www.romhacking.net/utilities/704/) or the xdelta3 command line tool.
 
 **English**
 
@@ -95,15 +87,3 @@ LoadWaitCel:                           ; r0 = file name, r1 = globals
 ```
 
 The NULL check stays in as a backstop. If a picture ever fails to load for some other reason, like a bad read, it's skipped instead of crashing the game.
-
-## Testing
-
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_fmv.png?raw=true"> The patch has been tested on real 3DO hardware.
-
-Since emulators don't crash on this bug, development was done in the Opera emulator with an added model of the 3DO's write protection, so a bad write hangs the game the way it does on hardware. With that in place, the unpatched game hangs on the Stage 5 loading screen just like the reports describe.
-
-With the patch applied:
-
-* Starting each of the five stages on both the English and Japanese discs, all 15 loading pictures load and every stage reaches the mahjong table.
-* The Stage 5 loading screen shows its three pictures in order (the opponent, the Shinjuku girls, and then Hunter) on both discs.
-* 20 long matches of random play across all five stages, run on an earlier English build with the same `/wait`, finished without a single crash or bad memory access, including wins, roulettes, and attacks from both sides.
