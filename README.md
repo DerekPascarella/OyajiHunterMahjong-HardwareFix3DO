@@ -4,7 +4,7 @@
 
 The crash was originally reported in [issue #16 of fixel's 3DO ODE firmware repo](https://github.com/fixelsan/3do-ode-firmware/issues/16), and was reproduced there on an FZ-1 with an internal ODE, on MNEMO's ODE, and on a plain CD-R. It turned out to be a bug in the game itself, not the ODEs. The original pressed disc reportedly gets away with it, but CD-Rs and ODEs don't.
 
-Two patches are available. One can be applied to the [Eight Mansions English translation v1.1.1](https://github.com/Eight-Mansions/Oyaji-Hunter-Mahjong/releases/tag/v1.1.1), and the other goes to the original Japanese version for anyone who wants to play it untranslated.
+Two patches are available. One can be applied to the [Eight Mansions English translation v1.1.1](https://github.com/Eight-Mansions/Oyaji-Hunter-Mahjong/releases/tag/v1.1.1), and the other goes to the original Japanese version for those wishing to play it in its original language.
 
 **⯈ Download Patch (English v1.1.1):** [Oyaji Hunter Mahjong (Hardware Crash Fix for T-En v1.1.1).xdelta](https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/raw/refs/heads/main/Oyaji%20Hunter%20Mahjong%20(Hardware%20Crash%20Fix%20for%20T-En%20v1.1.1).xdelta)
 
