@@ -42,31 +42,31 @@ Older English releases (v1.0 and v1.1) won't work with these patches. They must 
 
 ## About the Bug
 
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_loading.png?raw=true"> Between stages the game shows a NOW LOADING screen with a few pictures of the next opponent. That screen is its own little program on the disc called `/wait`, and it runs at the same time as the main game loads the next stage. For each stage it loads up to three pictures, one after another, with the 3DO library's `LoadCel()`, which asks the OS for a fresh block of memory to hold each one.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_loading.png?raw=true"> Between stages the game shows a NOW LOADING screen with a few images of the next opponent. That screen is its own little program on the disc called `/wait`, and it runs at the same time as the main game loads the next stage. For each stage it loads up to three images, one after another, with the 3DO library's `LoadCel()`, which asks the OS for a fresh block of memory to hold each one.
 
-Going into Stage 5 the main game is loading a lot at once and memory is tight, so the second and third pictures fail to load and `LoadCel()` hands back a NULL pointer. `/wait` never checks for that. It sets the picture's X and Y position anyway, which writes zeros to addresses `0x10` and `0x14`.
+Going into Stage 5 the main game is loading a lot at once and memory is tight, so the second and third images fail to load and `LoadCel()` hands back a NULL pointer. `/wait` never checks for that. It sets the image's X and Y position anyway, which writes zeros to addresses `0x10` and `0x14`.
 
-On a real 3DO, the memory controller only lets a task write to its own pages. Address `0x10` isn't one of them, so the write causes a data abort, the OS kills the task, and the game hangs or resets. Emulators generally don't enforce this, so the write goes through without complaint. The original report describes what happens on the Phoenix emulator, where the picture doesn't load and NOW LOADING gets drawn a second time over the previous picture.
+On a real 3DO, the memory controller only lets a task write to its own pages. Address `0x10` isn't one of them, so the write causes a data abort, the OS kills the task, and the game hangs or resets. Emulators generally don't enforce this, so the write goes through without complaint. The original report describes what happens on the Phoenix emulator, where the image doesn't load and NOW LOADING gets drawn a second time over the previous image.
 
 ## About the Fix
 
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_mahjong.png?raw=true"> `/wait` already has a full screen buffer in VRAM. It uses it to keep a copy of the background so it can redraw it every frame while the NOW LOADING text animates. That buffer is 153,600 bytes, and the biggest loading picture on the disc is 148,548 bytes, so every picture fits in it. The patch reads each picture straight into that buffer instead of asking for new memory, so there's nothing left to run out of.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_mahjong.png?raw=true"> `/wait` already has a full screen buffer in VRAM. It uses it to keep a copy of the background so it can redraw it every frame while the NOW LOADING text animates. That buffer is 153,600 bytes, and the biggest loading image on the disc is 148,548 bytes, so every image fits in it. The patch reads each image straight into that buffer instead of asking for new memory, effectively never running out.
 
-Reusing the buffer is safe because of the order in which things already happen. The image is drawn from the buffer onto the screen first, and only after that does the game copy the finished screen back into the buffer, which is the same thing it did before.
+Reusing the buffer is safe because of the order in which things already happen. The image is drawn from the buffer onto the screen first, and only after that does the game copy the finished screen back into the buffer, which is the game's original behavior.
 
-There's no free space in `/wait`, so the new code goes over a library routine at `wait+2B80` that got linked into the program but is never called. It leans on two other routines that are already in the file.
+There's was no extra free space in `/wait`, so an unused library routine at `wait+2B80` was repurposed for a small new helper routine.
 
 * `LoadFileHere` at `wait+2BF8` works like `LoadFile`, except the caller supplies the buffer. It refuses any file that's bigger than the buffer. It was also linked in and never used.
 * `ParseCel` at `wait+16F0` is the second half of `LoadCel()`. It takes a file that's already in memory and sets up the cel's pointers in place, without allocating anything.
 
-Here's the call site in the stage picture loop, before and after.
+Here's the call site in the stage image loop, before and after.
 
 ```
              original                  patched
 wait+DA8     mov  r1, #0x40000         ldr  r1, =globals     ; VramTemp lives in here
 wait+DAC     bl   LoadCel              bl   LoadWaitCel
 wait+DB0     mov  r5, r0               movs r5, r0
-wait+DB4     mov  r0, #0               beq  skip_picture     ; NULL check
+wait+DB4     mov  r0, #0               beq  skip_image       ; NULL check
 ...
 wait+E38     bl   UnloadCel            nop                   ; buffer isn't heap memory
 ```
