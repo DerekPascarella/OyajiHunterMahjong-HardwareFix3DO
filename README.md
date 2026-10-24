@@ -12,7 +12,7 @@ Two patches are available. One can be applied to the [Eight Mansions English tra
 
 ## Patching Instructions
 
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_fmv.png?raw=true"> Both patches are plain xdelta files and work on the ISO version of the game. Any xdelta patcher will do, such as [Delta Patcher](https://www.romhacking.net/utilities/704/) or the xdelta3 command line tool.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_fmv.png?raw=true"> The XDelta patch files shipped with this release can be used with any number of Delta utilities, such as such as [Delta Patcher](https://www.romhacking.net/utilities/704/) or the xdelta3 command line tool.
 
 **English**
 
@@ -28,8 +28,6 @@ From the command line, either one looks like this.
 ```
 xdelta3 -d -s "source.iso" "patch.xdelta" "patched.iso"
 ```
-
-Older English releases (v1.0 and v1.1) won't work with these patches. They must be updated to v1.1.1 first, since v1.1 also has a few broken file names that cause a separate crash after winning a hand.
 
 ## Checksums
 
