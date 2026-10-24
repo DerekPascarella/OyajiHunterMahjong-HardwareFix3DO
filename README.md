@@ -86,4 +86,4 @@ LoadWaitCel:                           ; r0 = file name, r1 = globals
     ldr   pc, [sp], #8
 ```
 
-The NULL check stays in as a backstop. If a picture ever fails to load for some other reason, like a bad read, it's skipped instead of crashing the game.
+The NULL check stays in as a backstop. If an image ever fails to load for some other reason, like a bad read, it's skipped instead of crashing the game.
