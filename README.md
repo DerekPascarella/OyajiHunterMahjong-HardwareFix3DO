@@ -52,7 +52,7 @@ On a real 3DO, the memory controller only lets a task write to its own pages. Ad
 
 Reusing the buffer is safe because of the order in which things already happen. The image is drawn from the buffer onto the screen first, and only after that does the game copy the finished screen back into the buffer, which is the game's original behavior.
 
-There's was no extra free space in `/wait`, so an unused library routine at `wait+2B80` was repurposed for a small new helper routine.
+There was no extra free space in `/wait`, so an unused library routine at `wait+2B80` was repurposed for a small new helper routine.
 
 * `LoadFileHere` at `wait+2BF8` works like `LoadFile`, except the caller supplies the buffer. It refuses any file that's bigger than the buffer. It was also linked in and never used.
 * `ParseCel` at `wait+16F0` is the second half of `LoadCel()`. It takes a file that's already in memory and sets up the cel's pointers in place, without allocating anything.
