@@ -48,9 +48,9 @@ On a real 3DO, the memory controller only lets a task write to its own pages. Ad
 
 ## About the Fix
 
-<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_mahjong.png?raw=true"> `/wait` already has a full screen buffer in VRAM. It uses it to keep a copy of the background so it can redraw it every frame while the NOW LOADING text animates. That buffer is 153,600 bytes, and the biggest loading image on the disc is 148,548 bytes, so every image fits in it. The patch reads each image straight into that buffer instead of asking for new memory, effectively never running out.
+<img align="right" width="200" src="https://github.com/DerekPascarella/OyajiHunterMahjong-HardwareFix3DO/blob/main/screenshot_mahjong.png?raw=true"> `/wait` already has a full screen buffer in VRAM. It uses it to keep a copy of the background so it can redraw it every frame while the NOW LOADING text animates. That buffer is 153,600 bytes, and the biggest loading image on the disc is 148,548 bytes (i.e., everything fits). The patch reads each image straight into that buffer instead of asking for new memory, effectively never running out.
 
-Reusing the buffer is safe because of the order in which things already happen. The image is drawn from the buffer onto the screen first, and only after that does the game copy the finished screen back into the buffer, which is the game's original behavior.
+Reusing the buffer was deemed safe because of the order in which things already happen. The image is drawn from the buffer onto the screen first, and only after that does the game copy the finished screen back into the buffer.
 
 There was no extra free space in `/wait`, so an unused library routine at `wait+2B80` was repurposed for a small new helper routine.
 
